@@ -1,6 +1,6 @@
 {
   "name": "@epoch-protocol/encoded-data-manipulation-lib",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Perform multiple operations with abi encoded bytes calldata",
   "directories": {
     "lib": "lib",
@@ -10,5 +10,8 @@
     "test": "forge test"
   },
   "author": "@abhimanyu121",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "url": "https://github.com/epochprotocol/encoded-data-manipulation-lib"
+  }
 }
