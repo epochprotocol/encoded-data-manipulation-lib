@@ -10,6 +10,7 @@ Note: This is not Audited yet so use it only if you understand what you are doin
 yarn add @epoch-protocol/encoded-data-manipulation-lib
 or
 npm install @epoch-protocol/encoded-data-manipulation-lib
+import "@epoch-protocol/encoded-data-manipulation-lib/src/ByteManipulationLibrary.sol";
 ```
 <b> Foundry </b>
 ```
