@@ -2,12 +2,16 @@
 
 pragma solidity ^0.8.12;
 
-import "forge-std/console2.sol";
-
 library ByteManipulationLibrary {
     uint8 constant byteLength = 32;
 
     //position starts from zero
+    /**
+    @notice extract static length data like uint256, address
+    @param data abi encoded bytes calldata
+    @param position position of the data to be extracted
+    @return returns bytes of extracted data.
+    **/
     function getFixedData(
         bytes calldata data,
         uint256 position
@@ -17,6 +21,12 @@ library ByteManipulationLibrary {
         return data[initialPosition:endingPosition];
     }
 
+    /**
+    @notice extract dynamic length data like string and bytes
+    @param data abi encoded bytes calldata
+    @param position position of the data to be extracted
+    @return returns bytes of extracted data.
+    **/
     function getDynamicData(
         bytes calldata data,
         uint256 position
@@ -41,6 +51,12 @@ library ByteManipulationLibrary {
         return extractedData;
     }
 
+    /**
+    @notice extract a dynamic length array of static sized data like uint256, address etc.
+    @param data abi encoded bytes calldata
+    @param position position of the data to be extracted
+    @return returns bytes of extracted data.
+    **/
     function getFixedSizeDynamicArrayData(
         bytes calldata data,
         uint256 position
@@ -81,6 +97,12 @@ library ByteManipulationLibrary {
         return extractedData;
     }
 
+    /**
+    @notice extract a static sized array of static sized data like uint256, address.
+    @param data abi encoded bytes calldata
+    @param position position of the data to be extracted
+    @return returns bytes of extracted data.
+    **/
     function getStaticArrayData(
         bytes calldata data,
         uint256 position
@@ -109,6 +131,12 @@ library ByteManipulationLibrary {
         return extractedData;
     }
 
+    /**
+    @notice extract a dynamic sized array of dynamic sized data.
+    @param data abi encoded bytes calldata
+    @param position position of the data to be extracted
+    @return returns bytes of extracted data.
+    **/
     function getDynamicSizeDynamicArrayData(
         bytes calldata data,
         uint256 position
@@ -155,26 +183,23 @@ library ByteManipulationLibrary {
         return extractedData;
     }
 
+    /**
+    @notice overwrite static data over a specific position
+    @param data abi encoded bytes calldata
+    @param dataToOverwrite data to place at a given position
+    @param position position of the data to be extracted
+    @return returns bytes of extracted data.
+    **/
     function overwriteStaticData(
         bytes calldata data,
         bytes32 dataToOverwrite,
         uint32 position
     ) public pure returns (bytes memory) {
-        console2.logBytes(data);
-        console2.logBytes32(dataToOverwrite);
         uint32 positionStart = position * byteLength;
-        console2.log("positionStart", positionStart);
         uint32 positionEnd = positionStart + byteLength;
-        console2.log("positionEnd", positionEnd);
-
         bytes calldata firstSplit = data[0:positionStart];
-        console2.logBytes(firstSplit);
         bytes calldata secondSplit = data[positionEnd:data.length];
-        console2.logBytes(secondSplit);
-
         bytes memory firstConcat = bytes.concat(firstSplit, dataToOverwrite);
-        console2.logBytes(firstConcat);
-
         return bytes.concat(firstConcat, secondSplit);
     }
 }
