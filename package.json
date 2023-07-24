@@ -1,6 +1,6 @@
 {
   "name": "@epoch-protocol/encoded-data-manipulation-lib",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Perform multiple operations with abi encoded bytes calldata",
   "directories": {
     "lib": "lib",
