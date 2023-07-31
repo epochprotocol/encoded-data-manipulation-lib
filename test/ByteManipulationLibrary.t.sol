@@ -15,7 +15,7 @@ contract ByteManipulationLibraryTest is Test {
 
     function testExtractingFixedSizeData() public {
         bytes memory testData = abi.encode(1, 2, 3);
-        bytes memory extractedData = this.extractFixedSizedData(testData, 1);
+        bytes32 extractedData = this.extractFixedSizedData(testData, 1);
         assertEq(uint256(bytes32(extractedData)), 2);
     }
 
@@ -129,7 +129,7 @@ contract ByteManipulationLibraryTest is Test {
     function extractFixedSizedData(
         bytes calldata data,
         uint32 position
-    ) public pure returns (bytes memory) {
+    ) public pure returns (bytes32) {
         return data.getFixedData(position);
     }
 

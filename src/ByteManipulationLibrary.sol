@@ -15,10 +15,10 @@ library ByteManipulationLibrary {
     function getFixedData(
         bytes calldata data,
         uint256 position
-    ) public pure returns (bytes memory) {
+    ) public pure returns (bytes32) {
         uint256 initialPosition = position * byteLength;
         uint256 endingPosition = initialPosition + byteLength;
-        return data[initialPosition:endingPosition];
+        return bytes32(data[initialPosition:endingPosition]);
     }
 
     /**
