@@ -184,18 +184,38 @@ library ByteManipulationLibrary {
     }
 
     /**
-    @notice overwrite static data over a specific position
+    @notice overwrite static data over a specific position in bytes encoded data with signature
     @param data abi encoded bytes calldata
     @param dataToOverwrite data to place at a given position
     @param position position of the data to be extracted
     @return returns bytes of extracted data.
     **/
-    function overwriteStaticData(
+    function overwriteStaticDataWithSignature(
         bytes calldata data,
         bytes32 dataToOverwrite,
         uint32 position
     ) public pure returns (bytes memory) {
-        uint32 positionStart = position * byteLength;
+        uint32 positionStart = 4 + (position * byteLength);
+        uint32 positionEnd = positionStart + byteLength;
+        bytes calldata firstSplit = data[0:positionStart];
+        bytes calldata secondSplit = data[positionEnd:data.length];
+        bytes memory firstConcat = bytes.concat(firstSplit, dataToOverwrite);
+        return bytes.concat(firstConcat, secondSplit);
+    }
+
+    /**
+    @notice overwrite static data over a specific position in bytes encoded data without signature
+    @param data abi encoded bytes calldata
+    @param dataToOverwrite data to place at a given position
+    @param position position of the data to be extracted
+    @return returns bytes of extracted data.
+    **/
+    function overwriteStaticDataWithoutSignature(
+        bytes calldata data,
+        bytes32 dataToOverwrite,
+        uint32 position
+    ) public pure returns (bytes memory) {
+        uint32 positionStart = (position * byteLength);
         uint32 positionEnd = positionStart + byteLength;
         bytes calldata firstSplit = data[0:positionStart];
         bytes calldata secondSplit = data[positionEnd:data.length];

@@ -108,13 +108,41 @@ contract ByteManipulationLibraryTest is Test {
         assertEq(addressArray, outputArray);
     }
 
+    function testOverwritesStaticDataWithSignature() public {
+        addressArray.push(address(this));
+        addressArray.push(address(this));
+        bytes4 selector = bytes4(
+            keccak256(bytes("executeEpoch(uint256, address, uint256, bytes)"))
+        );
+        bytes memory testData = abi.encodeWithSelector(
+            selector,
+            1,
+            "abcd",
+            addressArray,
+            69
+        );
+        bytes32 dataToOverwrite = bytes32(abi.encode(2));
+        bytes memory updateData = this.overwriteFixedLengthDataWithSignature(
+            testData,
+            dataToOverwrite,
+            2
+        );
+        bytes memory updatedBytesWithoutSignature = this
+            .dataFromSignauteEncodedBytes(updateData);
+        (, , uint8 third, ) = abi.decode(
+            updatedBytesWithoutSignature,
+            (uint8, string, uint8, uint8)
+        );
+        assertEq(third, 2);
+    }
+
     function testOverwritesStaticData() public {
         addressArray.push(address(this));
         addressArray.push(address(this));
 
         bytes memory testData = abi.encode(1, "abcd", addressArray, 69);
         bytes32 dataToOverwrite = bytes32(abi.encode(2));
-        bytes memory updateData = this.overwriteFixedLengthData(
+        bytes memory updateData = this.overwriteFixedLengthDataWithoutSignature(
             testData,
             dataToOverwrite,
             2
@@ -161,12 +189,27 @@ contract ByteManipulationLibraryTest is Test {
         return data.getStaticArrayData(position);
     }
 
-    function overwriteFixedLengthData(
+    function overwriteFixedLengthDataWithSignature(
         bytes calldata data,
         bytes32 dataToOverwrite,
         uint32 position
     ) public pure returns (bytes memory) {
-        return data.overwriteStaticData(dataToOverwrite, position);
+        return data.overwriteStaticDataWithSignature(dataToOverwrite, position);
+    }
+
+    function overwriteFixedLengthDataWithoutSignature(
+        bytes calldata data,
+        bytes32 dataToOverwrite,
+        uint32 position
+    ) public pure returns (bytes memory) {
+        return
+            data.overwriteStaticDataWithoutSignature(dataToOverwrite, position);
+    }
+
+    function dataFromSignauteEncodedBytes(
+        bytes calldata data
+    ) public pure returns (bytes calldata) {
+        return data[4:];
     }
 
     function bytesToAddress(
