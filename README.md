@@ -1,6 +1,7 @@
 ### Encoded Data Manipulation Library
 
 This library is simply written to perform various operations that may be needed to perform on ABI encoed bytes calldata.
+This library can be used for things like on-chain chain watchers.
 
 Note: This is not Audited yet so use it only if you understand what you are doing.
 
