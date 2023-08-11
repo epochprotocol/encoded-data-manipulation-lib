@@ -15,7 +15,7 @@ library ByteManipulationLibrary {
     function getFixedData(
         bytes calldata data,
         uint256 position
-    ) internal pure returns (bytes32) {
+    ) external pure returns (bytes32) {
         uint256 initialPosition = position * byteLength;
         uint256 endingPosition = initialPosition + byteLength;
         return bytes32(data[initialPosition:endingPosition]);
@@ -30,7 +30,7 @@ library ByteManipulationLibrary {
     function getDynamicData(
         bytes calldata data,
         uint256 position
-    ) internal pure returns (bytes memory) {
+    ) external pure returns (bytes memory) {
         uint256 initialPosition = (position * byteLength);
         uint256 endingPosition = initialPosition + byteLength;
         uint256 dataPosition = uint256(
@@ -60,7 +60,7 @@ library ByteManipulationLibrary {
     function getFixedSizeDynamicArrayData(
         bytes calldata data,
         uint256 position
-    ) internal pure returns (bytes[] memory) {
+    ) external pure returns (bytes[] memory) {
         uint256 _start;
         uint256 _end;
         uint256 offset;
@@ -106,7 +106,7 @@ library ByteManipulationLibrary {
     function getStaticArrayData(
         bytes calldata data,
         uint256 position
-    ) internal pure returns (bytes[] memory) {
+    ) external pure returns (bytes[] memory) {
         uint256 initialPosition = (position * byteLength);
         uint256 endingPosition = initialPosition + byteLength;
         uint256 dataPosition = uint256(
@@ -140,7 +140,7 @@ library ByteManipulationLibrary {
     function getDynamicSizeDynamicArrayData(
         bytes calldata data,
         uint256 position
-    ) internal pure returns (bytes[] memory) {
+    ) external pure returns (bytes[] memory) {
         uint256 _start;
         uint256 _end;
         uint256 offset;
@@ -194,7 +194,7 @@ library ByteManipulationLibrary {
         bytes calldata data,
         bytes32 dataToOverwrite,
         uint32 position
-    ) internal pure returns (bytes memory) {
+    ) external pure returns (bytes memory) {
         uint32 positionStart = 4 + (position * byteLength);
         uint32 positionEnd = positionStart + byteLength;
         bytes calldata firstSplit = data[0:positionStart];
@@ -214,7 +214,7 @@ library ByteManipulationLibrary {
         bytes calldata data,
         bytes32 dataToOverwrite,
         uint32 position
-    ) internal pure returns (bytes memory) {
+    ) external pure returns (bytes memory) {
         uint32 positionStart = (position * byteLength);
         uint32 positionEnd = positionStart + byteLength;
         bytes calldata firstSplit = data[0:positionStart];
